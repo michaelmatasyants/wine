@@ -1,4 +1,4 @@
 env/
 .vscode/
 venv
-wine.xlsx
+*.xlsx
