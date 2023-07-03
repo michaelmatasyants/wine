@@ -1,6 +1,7 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 from datetime import date
+import pprint
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import pandas
 
@@ -15,13 +16,22 @@ def name_of_year(year: int) -> str:
     return f"{year} лет"
 
 
-def get_wines_from_excel(filename='wine.xlsx', sheet_name='Лист1') -> list[dict]:
-    excel_df = pandas.read_excel(filename, sheet_name)
-    headers = ['name', 'variety', 'price', 'image']
-    all_wines = [dict(zip(headers, list(rows))) for _, rows in excel_df.iterrows()]
-    return all_wines
+def get_wines_from_excel(filename='wine2.xlsx', sheet_name='Лист1') -> dict:
+    excel_df = pandas.read_excel(filename, sheet_name, na_values=['NaN'],
+                                 keep_default_na=False)
+    headers = excel_df.columns.ravel()
+    wines_by_category, category_header = {}, headers[0]
+    categories = excel_df[category_header].unique().tolist()
+    all_wines = [dict(zip(headers, list(rows)))
+                 for _, rows in excel_df.iterrows()]
+    for category in categories:
+        wines = [wine for wine in all_wines
+                 if wine.get(category_header) == category]
+        wines_by_category[category] = wines
+    return wines_by_category
 
-
+pprint.pprint(get_wines_from_excel())
+'''
 env = Environment(
     loader=FileSystemLoader('.'),
     autoescape=select_autoescape(['html'])
@@ -39,3 +49,4 @@ with open('index.html', 'w', encoding='utf8') as file:
 
 server = HTTPServer(('0.0.0.0', 8080), SimpleHTTPRequestHandler)
 server.serve_forever()
+'''
