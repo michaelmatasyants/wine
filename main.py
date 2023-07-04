@@ -1,7 +1,5 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
-
 from datetime import date
-from pprint import pprint
 import collections
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import pandas
@@ -17,17 +15,17 @@ def name_of_year(year: int) -> str:
     return f"{year} лет"
 
 
-def get_wines_from_excel(filename='wine2.xlsx', sheet_name='Лист1') -> dict:
+def get_wines_from_excel(filename='wine.xlsx', sheet_name='Лист1') -> dict:
     excel_df = pandas.read_excel(filename, sheet_name, na_values=['NaN'],
                                  keep_default_na=False)
     headers = excel_df.columns.ravel()
     category_header = headers[0]
-    categories = excel_df[category_header].unique().tolist()
+    categories = sorted(excel_df[category_header].unique().tolist())
     all_wines = [dict(zip(headers, list(rows)))
                  for _, rows in excel_df.iterrows()]
     wines_by_category = collections.defaultdict(list)
-    for wine in all_wines:
-        for category in categories:
+    for category in categories:
+        for wine in all_wines:
             if wine[category_header] == category:
                 wines_by_category[category].append(wine)
     return wines_by_category
