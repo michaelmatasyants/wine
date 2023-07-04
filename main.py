@@ -33,8 +33,6 @@ def get_wines_from_excel(filename='wine2.xlsx', sheet_name='Лист1') -> dict:
     return wines_by_category
 
 
-pprint(get_wines_from_excel())
-
 env = Environment(
     loader=FileSystemLoader('.'),
     autoescape=select_autoescape(['html'])
@@ -44,11 +42,11 @@ template = env.get_template('template.html')
 
 rendered_page = template.render(
     since_foundation_years=name_of_year(year=date.today().year - 1920),
-    wines=get_wines_from_excel(),
+    all_wines=get_wines_from_excel(),
 )
 
 with open('index.html', 'w', encoding='utf8') as file:
     file.write(rendered_page)
 
-server = HTTPServer(('0.0.0.0', 8080), SimpleHTTPRequestHandler)
+server = HTTPServer(('0.0.0.0', 7030), SimpleHTTPRequestHandler)
 server.serve_forever()
