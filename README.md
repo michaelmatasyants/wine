@@ -41,7 +41,7 @@ This project was written to make it easy to add different wines and drinks to th
 8. To add or delete some drinks:
    - Open `wine.xlsx`, make changes to it, save and quit the file;
    - If you already ran the website, stop running it by pressing `Ctrl + C`;
-   - Run the website again to display the changes you made in `wine.xlsx`.
+   - Run the website again and browse it (steps six and seven) to display the changes you made in `wine.xlsx`.
 
 ## Project Objectives
 
