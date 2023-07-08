@@ -1,6 +1,7 @@
 # New Russian wine
 
 This is a website of the "New Russian Wine" wine store.
+This project was written to make it easy to add different wines and drinks to the wine store website page. To make changes to the site, you only need to edit the `wine.xlsx` file, and the script will do everything itself for you.
 
 ### How to run
 
@@ -36,6 +37,11 @@ This is a website of the "New Russian Wine" wine store.
     python3 main.py
     ```
 7. Browse [http://127.0.0.1:8000](http://127.0.0.1:8000).
+
+8. To add or delete some drinks:
+   - Open `wine.xlsx`, make changes to it, save and quit the file;
+   - If you already ran the website, stop running it by pressing `Ctrl + C`;
+   - Run the website again to display the changes you made in `wine.xlsx`.
 
 ## Project Objectives
 
