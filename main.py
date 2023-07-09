@@ -7,7 +7,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 import pandas
 
 
-def name_of_year(year: int) -> str:
+def get_name_of_year(year: int) -> str:
     if year % 100 in (11, 12, 13, 14):
         return f"{year} лет"
     elif year % 10 in (2, 3, 4):
@@ -56,7 +56,7 @@ def main():
     args = wine_parser.parse_args()
     template = env.get_template('template.html')
     rendered_page = template.render(
-        since_foundation_years=name_of_year(year=date.today().year - 1920),
+        since_foundation_years=get_name_of_year(year=date.today().year - 1920),
         all_wines=get_wines_from_excel(file_path=args.file_path),
     )
 
