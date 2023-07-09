@@ -35,33 +35,37 @@ def get_wines_from_excel(file_path: Path, sheet_name='Лист1') -> dict:
     return wines_by_category
 
 
-env = Environment(
-    loader=FileSystemLoader('.'),
-    autoescape=select_autoescape(['html'])
-)
-template = env.get_template('template.html')
+def main():
+    '''Main function'''
+    env = Environment(
+        loader=FileSystemLoader('.'),
+        autoescape=select_autoescape(['html'])
+    )
+    wine_parser = argparse.ArgumentParser(
+        description='''Program makes it easy to add (remove) drinks to the wine
+                    store website page.
+                    To make changes on website, you only need to edit wine.xlsx
+                    file or create a similar file and pass the file path.
+                    The script will do everything itself for you.
+                    '''
+    )
+    wine_parser.add_argument('-f', '--file_path',
+                             type=Path,
+                             default=Path('wine.xlsx'),
+                             help='excel file path with drinks')
+    args = wine_parser.parse_args()
+    template = env.get_template('template.html')
+    rendered_page = template.render(
+        since_foundation_years=name_of_year(year=date.today().year - 1920),
+        all_wines=get_wines_from_excel(file_path=args.file_path),
+    )
 
-wine_parser = argparse.ArgumentParser(
-    description='''Program makes it easy to add (remove) drinks to the wine
-                   store website page.
-                   To make changes on website, you only need to edit wine.xlsx
-                   file or create a similar file and pass the file path.
-                   The script will do everything itself for you.
-                '''
-)
-wine_parser.add_argument('-f', '--file_path',
-                         type=Path,
-                         default=Path('wine.xlsx'),
-                         help='excel file path with drinks')
-args = wine_parser.parse_args()
+    with open('index.html', 'w', encoding='utf8') as file:
+        file.write(rendered_page)
 
-rendered_page = template.render(
-    since_foundation_years=name_of_year(year=date.today().year - 1920),
-    all_wines=get_wines_from_excel(file_path=args.file_path),
-)
+    server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
+    server.serve_forever()
 
-with open('index.html', 'w', encoding='utf8') as file:
-    file.write(rendered_page)
 
-server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
-server.serve_forever()
+if __name__ == "__main__":
+    main()
