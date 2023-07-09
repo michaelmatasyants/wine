@@ -1,7 +1,7 @@
 # New Russian wine
 
 This is a website of the "New Russian Wine" wine store.
-This project was written to make it easy to add different wines and drinks to the wine store website page. To make changes to the site, you only need to edit the `wine.xlsx` file, and the script will do everything itself for you.
+This project was written to make it easy to add different wines and drinks to the wine store website page. To make changes to the site, you only need to edit the `wine.xlsx` file, or create a similar file and pass the file path. The script will do everything itself for you.
 
 ### How to run
 
@@ -38,10 +38,24 @@ This project was written to make it easy to add different wines and drinks to th
     ```
 7. Browse [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
-8. To add or delete some drinks:
-   - Open `wine.xlsx`, make changes to it, save and quit the file;
-   - If you already ran the website, stop running it by pressing `Ctrl + C`;
-   - Run the website again and browse it (steps six and seven) to display the changes you made in `wine.xlsx`.
+8. Add or delete some drinks.  
+   
+   There are two possible ways to do it:
+   1. By changing the file wine.xlsx, which is in the root of the project
+      - If you'd already run the website, stop it by pressing `Ctrl + C` in terminal;
+      - Open `wine.xlsx`, make changes to it, save and quit the file;
+      - Run the website again and browse it (steps six and seven) to display the changes you made in `wine.xlsx`.
+      
+   2. By creating an excel file similar in structure to `wine.xlsx` and passing the path to the file.
+      - If you'd already run the website, stop it by pressing `Ctrl + C` in terminal;
+      - Create a new excel file with the column names from `wine.xlsx` and add all the data that you nedd. Remember to save the path to the file to pass it in the next step.
+      - Run the website again:
+         ```
+         python3 main.py -f path/to/the/file/new_wine_file.xlsx
+         ```
+      - Browse [http://127.0.0.1:8000](http://127.0.0.1:8000).
+   
+   <b> Remember that every time you edit the excel file, you must stop and rerun the website to display the changes. </b>
 
 ## Project Objectives
 
